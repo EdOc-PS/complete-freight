@@ -1,0 +1,6 @@
+[
+  { "id": 1, "description": "Carga Fracionada" },
+  { "id": 2, "description": "Carga Completa" },
+  { "id": 3, "description": "Produtos Perecíveis" },
+  { "id": 4, "description": "Carga Perigosa" }
+]
