@@ -1,86 +1,171 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CompleteFreight Dashboard</title>
+  <title>CompleteFreight</title>
 
   <link rel="stylesheet" href="./css/styles.css">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
-  <link rel="shortcut icon" href="./assets//box-truck.ico" type="image/x-icon">
-  
+  <link rel="shortcut icon" href="./assets/box-truck.ico" type="image/x-icon">
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
-  
-
 </head>
+
 <body>
 
+  <!-- HEADER -->
   <header class="header">
     <h1>
-        <span class="icon-bg">
-            <i data-lucide="truck" style="color: var(--primary-color);"></i>
-        </span> 
-        CompleteFreight
+      <span class="icon-bg">
+        <i data-lucide="truck" style="color: var(--primary-color);"></i>
+      </span>
+      CompleteFreight
     </h1>
-    <span>Eduardo e Matheus </span>
+    <span>Eduardo e Matheus</span>
   </header>
 
+  <!-- KPI CARDS -->
+  <section class="kpi-container">
+
+    <div class="kpi-card">
+      <div class="kpi-icon">
+        <i data-lucide="package"></i>
+      </div>
+      <div class="kpi-info">
+        <span>Total de Fretes</span>
+        <strong id="kpiFreights">0</strong>
+      </div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-icon">
+        <i data-lucide="users"></i>
+      </div>
+      <div class="kpi-info">
+        <span>Motoristas</span>
+        <strong id="kpiDrivers">0</strong>
+      </div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-icon">
+        <i data-lucide="alert-triangle"></i>
+      </div>
+      <div class="kpi-info">
+        <span>Fretes Atrasados</span>
+        <strong id="kpiDelayed">0</strong>
+      </div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-icon">
+        <i data-lucide="dollar-sign"></i>
+      </div>
+      <div class="kpi-info">
+        <span>Receita Total</span>
+        <strong id="kpiRevenue">R$ 0</strong>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- DASHBOARD -->
   <main class="container dashboard-grid">
-    
+
+    <!-- Volume por Região -->
     <section class="card">
       <div class="card-header">
         <h3>
-            <span class="icon-bg">
-                <i data-lucide="map-pin"></i>
-            </span> 
-            Volume por Região
+          <span class="icon-bg">
+            <i data-lucide="map-pin"></i>
+          </span>
+          Volume por Região
         </h3>
+        <span class="info-wrapper">
+          <i data-lucide="info" class="info-icon"></i>
+          <span class="info-tooltip">
+            Mostra a quantidade de fretes realizados em cada região do Brasil.
+            <br><br>
+            <strong>Apoia:</strong> identificação de regiões com maior demanda e definição de foco operacional.
+          </span>
+        </span>
       </div>
       <div class="chart-container">
         <canvas id="chartRegion"></canvas>
       </div>
     </section>
 
+    <!-- Taxa de Atraso -->
     <section class="card">
       <div class="card-header">
         <h3>
-            <span class="icon-bg">
-                <i data-lucide="clock"></i>
-            </span>
-            Taxa de Atraso
+          <span class="icon-bg">
+            <i data-lucide="clock"></i>
+          </span>
+          Taxa de Atraso
         </h3>
+        <span class="info-wrapper">
+          <i data-lucide="info" class="info-icon"></i>
+          <span class="info-tooltip">
+            Apresenta o percentual de fretes entregues fora do prazo por região.
+            <br><br>
+            <strong>Apoia:</strong> identificação de gargalos logísticos e avaliação de riscos regionais.
+          </span>
+        </span>
+
       </div>
       <div class="chart-container">
         <canvas id="chartDelayRegion"></canvas>
       </div>
     </section>
 
+    <!-- Receita vs Atraso -->
     <section class="card">
       <div class="card-header">
         <h3>
-            <span class="icon-bg">
-                <i data-lucide="dollar-sign"></i>
-            </span>
-            Receita vs Atraso
+          <span class="icon-bg">
+            <i data-lucide="dollar-sign"></i>
+          </span>
+          Receita vs Atraso
         </h3>
+        <span class="info-wrapper">
+          <i data-lucide="info" class="info-icon"></i>
+          <span class="info-tooltip">
+            Relaciona a receita total gerada por cada tipo de frete com sua taxa média de atraso.
+            <br><br>
+            <strong>Apoia:</strong> análise de risco x retorno e revisão de contratos de frete.
+          </span>
+        </span>
+
       </div>
       <div class="chart-container">
         <canvas id="chartScatter"></canvas>
       </div>
     </section>
 
+    <!-- Performance dos Motoristas -->
     <section class="card">
       <div class="card-header">
         <h3>
-            <span class="icon-bg">
-                <i data-lucide="users"></i>
-            </span>
-            Performance Motoristas
+          <span class="icon-bg">
+            <i data-lucide="users"></i>
+          </span>
+          Performance dos Motoristas
         </h3>
+        <span class="info-wrapper">
+          <i data-lucide="info" class="info-icon"></i>
+          <span class="info-tooltip">
+            Exibe o percentual de entregas realizadas dentro do prazo por motorista.
+            <br><br>
+            <strong>Apoia:</strong> avaliação de desempenho e alocação eficiente de motoristas.
+          </span>
+        </span>
       </div>
       <div class="chart-container">
         <canvas id="chartDrivers"></canvas>
@@ -89,10 +174,12 @@
 
   </main>
 
+  <!-- JS -->
   <script src="./js/dashboard.js"></script>
-  
   <script>
     lucide.createIcons();
   </script>
+
 </body>
+
 </html>

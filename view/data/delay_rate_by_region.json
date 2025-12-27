@@ -1,16 +1,16 @@
 {
   "labels": [
     "Sudeste",
-    "Sul",
-    "Nordeste",
+    "Centro-Oeste",
     "Norte",
-    "Centro-Oeste"
+    "Nordeste",
+    "Sul"
   ],
   "values": [
+    42.86,
+    40.0,
+    40.0,
     75.0,
-    0.0,
-    50.0,
-    33.33,
-    100.0
+    33.33
   ]
 }

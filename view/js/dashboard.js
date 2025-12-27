@@ -2,11 +2,10 @@ Chart.defaults.font.family = "'Geist', sans-serif";
 Chart.defaults.color = '#64748B';
 
 const colorPalette = [
-    '#6366F1', '#10B981', '#F59E0B', '#EC4899', 
-    '#3B82F6', '#8B5CF6', '#EF4444', '#06B6D4'  
+    '#6366F1', '#10B981', '#F59E0B', '#EC4899',
+    '#3B82F6', '#8B5CF6', '#EF4444', '#06B6D4'
 ];
 
-// Configuração de legenda avançada (apenas para gráficos de BARRA)
 const legendPerPointConfig = {
     display: true,
     position: 'top',
@@ -18,8 +17,8 @@ const legendPerPointConfig = {
             if (data.labels.length && data.datasets.length) {
                 return data.labels.map((label, i) => {
                     const ds = data.datasets[0];
-                    const color = Array.isArray(ds.backgroundColor) 
-                        ? ds.backgroundColor[i % ds.backgroundColor.length] 
+                    const color = Array.isArray(ds.backgroundColor)
+                        ? ds.backgroundColor[i % ds.backgroundColor.length]
                         : ds.backgroundColor;
 
                     return {
@@ -47,7 +46,7 @@ async function loadData() {
     return response.json();
 }
 
-// 1. Gráfico de Volume (Barra)
+// Gráfico de Volume
 async function loadChart() {
     const data = await loadData();
 
@@ -59,7 +58,7 @@ async function loadChart() {
             datasets: [{
                 label: "Quantidade",
                 data: data.values,
-                backgroundColor: colorPalette, 
+                backgroundColor: colorPalette,
                 borderRadius: 6,
                 borderSkipped: false
             }]
@@ -83,9 +82,7 @@ async function loadChart() {
     });
 }
 
-loadChart();
-
-// 2. Gráfico de Taxa de Atraso (ALTERADO PARA PIZZA/ROSCA)
+//Gráfico de Taxa de Atraso
 async function loadDelayRateChart() {
     const response = await fetch("data/delay_rate_by_region.json");
     const data = await response.json();
@@ -123,33 +120,35 @@ async function loadDelayRateChart() {
                 tooltip: {
                     callbacks: {
                         label: function (context) {
-                            // Formata o tooltip para mostrar a porcentagem corretamente
                             const value = context.raw;
-                            return ` ${context.label}: ${(value * 100).toFixed(1)}%`;
+                            return ` ${context.label}: ${value.toFixed(1)}%`;
                         }
                     }
                 }
+
             },
             // IMPORTANTE: Removemos o bloco 'scales' pois gráficos de pizza não têm eixos X/Y
         }
     });
 }
 
-loadDelayRateChart();
-
-// 3. Gráfico Scatter
+//Gráfico Scatter
 async function loadScatterChart() {
     const response = await fetch("data/revenue_vs_delay_by_freight_type.json");
     const rawData = await response.json();
 
     const datasets = rawData.map((item, index) => ({
         label: item.label,
-        data: [{ x: item.x * 100, y: item.y }],
+        data: [{
+            x: Number((item.x * 100).toFixed(1)),
+            y: item.y
+        }],
         pointRadius: 8,
-        pointHoverRadius: 12, 
+        pointHoverRadius: 12,
         backgroundColor: colorPalette[index % colorPalette.length],
         borderColor: colorPalette[index % colorPalette.length],
     }));
+
 
     const ctx = document.getElementById("chartScatter").getContext('2d');
     new Chart(ctx, {
@@ -180,7 +179,7 @@ async function loadScatterChart() {
             plugins: {
                 legend: {
                     display: true,
-                    position: 'right', 
+                    position: 'right',
                     labels: { usePointStyle: true }
                 },
                 tooltip: {
@@ -196,9 +195,7 @@ async function loadScatterChart() {
     });
 }
 
-loadScatterChart();
-
-// 4. Gráfico Performance (Barra Horizontal)
+// Gráfico Performance
 async function loadDriverPerformanceChart() {
     const response = await fetch("data/driver_performance.json");
     const data = await response.json();
@@ -250,4 +247,30 @@ async function loadDriverPerformanceChart() {
     });
 }
 
+//Cards-KPI
+async function loadKPIs() {
+    const freights = await fetch("/data/freights.json").then(r => r.json());
+    const drivers = await fetch("/data/drivers.json").then(r => r.json());
+
+    const totalFreights = freights.length;
+    const totalDrivers = drivers.length;
+
+    const delayedFreights = freights.filter(
+        f => new Date(f.delivery_date) > new Date(f.expected_date)
+    ).length;
+
+    const totalRevenue = freights.reduce(
+        (sum, f) => sum + f.value, 0
+    );
+
+    document.getElementById("kpiFreights").textContent = totalFreights;
+    document.getElementById("kpiDrivers").textContent = totalDrivers;
+    document.getElementById("kpiDelayed").textContent = delayedFreights;
+    document.getElementById("kpiRevenue").textContent = `R$ ${totalRevenue.toLocaleString("pt-BR")}`;
+}
+
+loadKPIs();
+loadChart();
+loadDelayRateChart();
 loadDriverPerformanceChart();
+loadScatterChart();

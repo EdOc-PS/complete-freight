@@ -1,16 +1,16 @@
 {
   "labels": [
     "Sudeste",
-    "Sul",
-    "Nordeste",
+    "Centro-Oeste",
     "Norte",
-    "Centro-Oeste"
+    "Nordeste",
+    "Sul"
   ],
   "values": [
+    7,
+    5,
+    5,
     4,
-    3,
-    4,
-    3,
-    2
+    3
   ]
 }
