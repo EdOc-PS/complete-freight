@@ -1,8 +1,9 @@
-export async function loadDriverPerformanceChart() {
+export async function loadDriverPerformanceChart(colorPalette, legendPerPointConfig) {
     const response = await fetch("data/driver_performance.json");
     const data = await response.json();
 
     const ctx = document.getElementById("chartDrivers").getContext('2d');
+
     new Chart(ctx, {
         type: "bar",
         data: {
@@ -48,5 +49,3 @@ export async function loadDriverPerformanceChart() {
         }
     });
 }
-
-loadDriverPerformanceChart();

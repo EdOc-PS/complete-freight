@@ -1,15 +1,19 @@
-async function loadScatterChart() {
-    const response = await fetch("/data/revenue_vs_delay_by_freight_type.json");
+export async function loadScatterChart(colorPalette) {
+    const response = await fetch("data/revenue_vs_delay_by_freight_type.json");
     const rawData = await response.json();
 
     const datasets = rawData.map((item, index) => ({
         label: item.label,
-        data: [{ x: item.x * 100, y: item.y }],
+        data: [{
+            x: Number((item.x * 100).toFixed(1)),
+            y: item.y
+        }],
         pointRadius: 8,
         pointHoverRadius: 12,
         backgroundColor: colorPalette[index % colorPalette.length],
         borderColor: colorPalette[index % colorPalette.length],
     }));
+
 
     const ctx = document.getElementById("chartScatter").getContext('2d');
     new Chart(ctx, {
@@ -55,5 +59,3 @@ async function loadScatterChart() {
         }
     });
 }
-
-loadScatterChart();
