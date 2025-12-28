@@ -205,16 +205,22 @@
          <h3>Adicionar Frete</h3>
          <form id="addFreightForm">
              <div class="form-group">
-                 <label>Região ID:</label>
-                 <input type="number" name="region_id" required>
+                 <label>Região:</label>
+                 <select name="region_id" id="regionSelect" required>
+                    <option value="">Selecione...</option>
+                 </select>
              </div>
              <div class="form-group">
-                 <label>Motorista ID:</label>
-                 <input type="number" name="driver_id" required>
+                 <label>Motorista:</label>
+                 <select name="driver_id" id="driverSelect" required>
+                    <option value="">Selecione...</option>
+                 </select>
              </div>
              <div class="form-group">
-                 <label>Tipo Frete ID:</label>
-                 <input type="number" name="freight_type_id" required>
+                 <label>Tipo Frete:</label>
+                 <select name="freight_type_id" id="freightTypeSelect" required>
+                    <option value="">Selecione...</option>
+                 </select>
              </div>
              <div class="form-group">
                  <label>Valor:</label>

@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.style.display = "block";
         loadDrivers();
         loadFreights();
+        loadRegions();
+        loadFreightTypes();
     };
     
     if (span) span.onclick = () => modal.style.display = "none";
@@ -43,6 +45,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span class="delete-btn" onclick="window.deleteDriver(${d.id})">X</span>
                 </div>
             `).join('');
+
+            const driverSelect = document.getElementById("driverSelect");
+            if (driverSelect) {
+                driverSelect.innerHTML = '<option value="">Selecione...</option>' + 
+                    drivers.map(d => `<option value="${d.id}">${d.name}</option>`).join('');
+            }
         } catch (err) {
             console.error(err);
         }
@@ -126,5 +134,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error(err);
             }
         };
+    }
+
+    const regionSelect = document.getElementById("regionSelect");
+
+    async function loadRegions() {
+        if (!regionSelect) return;
+        try {
+            const res = await fetch('/api/regions');
+            if (!res.ok) throw new Error("Failed to fetch regions");
+            const regions = await res.json();
+            
+            // Keep the first option (Selecione...)
+            regionSelect.innerHTML = '<option value="">Selecione...</option>' + 
+                regions.map(r => `<option value="${r.id}">${r.name}</option>`).join('');
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    async function loadFreightTypes() {
+        const freightTypeSelect = document.getElementById("freightTypeSelect");
+        if (!freightTypeSelect) return;
+        try {
+            const res = await fetch('/api/freight_types');
+            if (!res.ok) throw new Error("Failed to fetch freight types");
+            const types = await res.json();
+            
+            freightTypeSelect.innerHTML = '<option value="">Selecione...</option>' + 
+                types.map(t => `<option value="${t.id}">${t.description}</option>`).join('');
+        } catch (err) {
+            console.error(err);
+        }
     }
 });

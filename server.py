@@ -8,8 +8,12 @@ from typing import Tuple, Optional
 
 from model.repositories.driver_repository import DriverRepository
 from model.repositories.freight_repository import FreightRepository
+from model.repositories.region_repository import RegionRepository
+from model.repositories.freight_type_repository import FreightTypeRepository
 from controller.driver_controller import DriverController
 from controller.freight_controller import FreightController
+from controller.region_controller import RegionController
+from controller.freight_type_controller import FreightTypeController
 
 # Import main to update dashboard data
 try:
@@ -22,11 +26,14 @@ PORT = 8000
 
 # Initialize components
 driver_repo = DriverRepository("data/drivers.json")
-# ... (rest of the file)
 freight_repo = FreightRepository("data/freights.json")
+region_repo = RegionRepository("data/regions.json")
+freight_type_repo = FreightTypeRepository("data/freight_types.json")
 
 driver_controller = DriverController(driver_repo)
 freight_controller = FreightController(freight_repo)
+region_controller = RegionController(region_repo)
+freight_type_controller = FreightTypeController(freight_type_repo)
 
 class RequestHandler(http.server.SimpleHTTPRequestHandler):
     
@@ -35,6 +42,10 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             self.send_json(driver_controller.get_all())
         elif self.path.startswith("/api/freights"):
             self.send_json(freight_controller.get_all())
+        elif self.path.startswith("/api/regions"):
+            self.send_json(region_controller.get_all())
+        elif self.path.startswith("/api/freight_types"):
+            self.send_json(freight_type_controller.get_all())
         else:
             # Static file serving logic
             if self.path == "/" or self.path == "/index.html":
