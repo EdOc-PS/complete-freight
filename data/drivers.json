@@ -1,10 +1,47 @@
 [
-  { "id": 1, "name": "João Silva" },
-  { "id": 2, "name": "Maria Oliveira" },
-  { "id": 3, "name": "Carlos Pereira" },
-  { "id": 4, "name": "Ana Souza" },
-  { "id": 5, "name": "Pedro Lima" },
-  { "id": 6, "name": "Fernanda Rocha" },
-  { "id": 7, "name": "Rafael Costa" },
-  { "id": 8, "name": "Juliana Martins" }
+  {
+    "id": 1,
+    "name": "João Silva",
+    "active": true
+  },
+  {
+    "id": 2,
+    "name": "Maria Oliveira",
+    "active": true
+  },
+  {
+    "id": 3,
+    "name": "Carlos Pereira",
+    "active": true
+  },
+  {
+    "id": 4,
+    "name": "Ana Souza",
+    "active": true
+  },
+  {
+    "id": 5,
+    "name": "Pedro Lima",
+    "active": true
+  },
+  {
+    "id": 6,
+    "name": "Fernanda Rocha",
+    "active": true
+  },
+  {
+    "id": 7,
+    "name": "Rafael Costa",
+    "active": true
+  },
+  {
+    "id": 8,
+    "name": "Juliana Martins",
+    "active": true
+  },
+  {
+    "id": 9,
+    "name": "José Carlos",
+    "active": true
+  }
 ]
