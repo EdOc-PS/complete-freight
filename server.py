@@ -14,13 +14,14 @@ from controller.driver_controller import DriverController
 from controller.freight_controller import FreightController
 from controller.region_controller import RegionController
 from controller.freight_type_controller import FreightTypeController
+from controller.dashboard_controller import DashboardController
 
 # Import main to update dashboard data
-try:
-    from main import main as update_dashboard
-except ImportError:
-    print("Warning: Could not import main.py, dashboard won't auto-update.")
-    def update_dashboard(): pass
+# try:
+#     from main import main as update_dashboard
+# except ImportError:
+#     print("Warning: Could not import main.py, dashboard won't auto-update.")
+#     def update_dashboard(): pass
 
 PORT = 8000
 
@@ -34,6 +35,7 @@ driver_controller = DriverController(driver_repo)
 freight_controller = FreightController(freight_repo)
 region_controller = RegionController(region_repo)
 freight_type_controller = FreightTypeController(freight_type_repo)
+dashboard_controller = DashboardController(freight_repo, region_repo, driver_repo, freight_type_repo)
 
 class RequestHandler(http.server.SimpleHTTPRequestHandler):
     
@@ -46,6 +48,16 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             self.send_json(region_controller.get_all())
         elif self.path.startswith("/api/freight_types"):
             self.send_json(freight_type_controller.get_all())
+        elif self.path.startswith("/api/dashboard/kpis"):
+            self.send_json(dashboard_controller.get_kpis())
+        elif self.path.startswith("/api/dashboard/freight_by_region"):
+            self.send_json(dashboard_controller.get_freight_volume_by_region())
+        elif self.path.startswith("/api/dashboard/delay_by_region"):
+            self.send_json(dashboard_controller.get_delay_rate_by_region())
+        elif self.path.startswith("/api/dashboard/driver_performance"):
+            self.send_json(dashboard_controller.get_driver_performance())
+        elif self.path.startswith("/api/dashboard/revenue_vs_delay"):
+            self.send_json(dashboard_controller.get_revenue_vs_delay_by_freight_type())
         else:
             # Static file serving logic
             if self.path == "/" or self.path == "/index.html":
@@ -83,13 +95,13 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         if self.path == "/api/drivers":
             new_driver = driver_controller.create(data)
             self.send_json(new_driver, HTTPStatus.CREATED)
-            try: update_dashboard() 
-            except Exception as e: print(f"Error updating dashboard: {e}")
+            # try: update_dashboard() 
+            # except Exception as e: print(f"Error updating dashboard: {e}")
         elif self.path == "/api/freights":
             new_freight = freight_controller.create(data)
             self.send_json(new_freight, HTTPStatus.CREATED)
-            try: update_dashboard() 
-            except Exception as e: print(f"Error updating dashboard: {e}")
+            # try: update_dashboard() 
+            # except Exception as e: print(f"Error updating dashboard: {e}")
         else:
             self.send_error(HTTPStatus.NOT_FOUND)
 
@@ -103,8 +115,8 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             if driver_controller.delete(id):
                 self.send_response(HTTPStatus.NO_CONTENT)
                 self.end_headers()
-                try: update_dashboard() 
-                except Exception as e: print(f"Error updating dashboard: {e}")
+                # try: update_dashboard() 
+                # except Exception as e: print(f"Error updating dashboard: {e}")
             else:
                 self.send_error(HTTPStatus.NOT_FOUND)
         elif freight_match:
@@ -112,8 +124,8 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             if freight_controller.delete(id):
                 self.send_response(HTTPStatus.NO_CONTENT)
                 self.end_headers()
-                try: update_dashboard() 
-                except Exception as e: print(f"Error updating dashboard: {e}")
+                # try: update_dashboard() 
+                # except Exception as e: print(f"Error updating dashboard: {e}")
             else:
                 self.send_error(HTTPStatus.NOT_FOUND)
         else:

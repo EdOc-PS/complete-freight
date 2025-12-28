@@ -238,5 +238,15 @@
     "send_date": "2024-05-15",
     "expected_date": "2024-05-22",
     "delivery_date": "2024-05-22"
+  },
+  {
+    "id": 25,
+    "region_id": 4,
+    "driver_id": 9,
+    "freight_type_id": 1,
+    "value": 15000.0,
+    "send_date": "2025-10-10",
+    "expected_date": "2025-12-18",
+    "delivery_date": "2025-12-14"
   }
 ]

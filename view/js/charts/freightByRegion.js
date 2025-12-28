@@ -1,5 +1,5 @@
 export async function loadChart(colorPalette, legendPerPointConfig) {
-    const response = await fetch("data/freight_by_region.json");
+    const response = await fetch("/api/dashboard/freight_by_region");
     const data = await response.json();
 
     const ctx = document.getElementById("chartRegion").getContext('2d');

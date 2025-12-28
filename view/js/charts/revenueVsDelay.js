@@ -1,5 +1,5 @@
 export async function loadScatterChart(colorPalette) {
-    const response = await fetch("data/revenue_vs_delay_by_freight_type.json");
+    const response = await fetch("/api/dashboard/revenue_vs_delay");
     const rawData = await response.json();
 
     const datasets = rawData.map((item, index) => ({
