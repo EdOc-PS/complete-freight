@@ -1,15 +1,23 @@
-import json
 from typing import List
 from model.entities.freight_type import FreightType
 from model.repositories.base_repository import BaseRepository
+from database.mongo_connection import db
+
 
 class FreightTypeRepository(BaseRepository):
 
-    def __init__(self, file_path: str):
-        self.file_path = file_path
+    def __init__(self):
+        self.collection = db["freight_types"]
 
     def get_all(self) -> List[FreightType]:
-        with open(self.file_path, encoding="utf-8") as file:
-            data = json.load(file)
+        freight_types = []
 
-        return [FreightType(**item) for item in data]
+        for item in self.collection.find():
+            freight_types.append(
+                FreightType(
+                    id=item["id"],
+                    description=item["description"]
+                )
+            )
+
+        return freight_types

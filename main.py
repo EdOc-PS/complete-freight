@@ -6,10 +6,10 @@ from model.repositories.freight_type_repository import FreightTypeRepository
 
 def main():
     controller = DashboardController(
-        FreightRepository("data/freights.json"),
-        RegionRepository("data/regions.json"),
-        DriverRepository("data/drivers.json"),
-        FreightTypeRepository("data/freight_types.json")
+        FreightRepository(),
+        RegionRepository(),
+        DriverRepository(),
+        FreightTypeRepository()
     )
 
     controller.export_to_json(
@@ -31,7 +31,6 @@ def main():
         controller.get_driver_performance(),
         "view/data/driver_performance.json"
     )
-
 
 if __name__ == "__main__":
     main()

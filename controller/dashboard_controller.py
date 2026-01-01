@@ -85,9 +85,14 @@ class DashboardController:
         }
 
         for driver_id in total:
+            if driver_id not in driver_map:
+                # ignora fretes com motorista inexistente
+                continue
+
             performance = (on_time[driver_id] / total[driver_id]) * 100
             result["labels"].append(driver_map[driver_id])
             result["values"].append(round(performance, 2))
+
 
         return result
 
