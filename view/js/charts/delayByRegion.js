@@ -1,5 +1,5 @@
 export async function loadDelayRateChart(colorPalette) {
-    const response = await fetch("data/delay_rate_by_region.json");
+    const response = await fetch("/api/dashboard/delay_by_region");
     const data = await response.json();
 
     const ctx = document.getElementById("chartDelayRegion").getContext('2d');

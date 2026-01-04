@@ -85,9 +85,14 @@ class DashboardController:
         }
 
         for driver_id in total:
+            if driver_id not in driver_map:
+                # ignora fretes com motorista inexistente
+                continue
+
             performance = (on_time[driver_id] / total[driver_id]) * 100
             result["labels"].append(driver_map[driver_id])
             result["values"].append(round(performance, 2))
+
 
         return result
 
@@ -119,6 +124,23 @@ class DashboardController:
 
         return data_points
 
+
+    def get_kpis(self) -> Dict:
+        freights = self.freight_repo.get_all()
+        drivers = self.driver_repo.get_all()
+        
+        total_freights = len(freights)
+        total_drivers = len(drivers)
+        
+        delayed_freights = sum(1 for f in freights if f.is_delayed())
+        total_revenue = sum(f.value for f in freights)
+        
+        return {
+            "total_freights": total_freights,
+            "total_drivers": total_drivers,
+            "delayed_freights": delayed_freights,
+            "total_revenue": round(total_revenue, 2)
+        }
 
     def export_to_json(self, data, output_path: str):
         with open(output_path, "w", encoding="utf-8") as file:

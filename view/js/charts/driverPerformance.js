@@ -1,5 +1,5 @@
 export async function loadDriverPerformanceChart(colorPalette, legendPerPointConfig) {
-    const response = await fetch("data/driver_performance.json");
+    const response = await fetch("/api/dashboard/driver_performance");
     const data = await response.json();
 
     const ctx = document.getElementById("chartDrivers").getContext('2d');

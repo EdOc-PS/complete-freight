@@ -47,24 +47,16 @@ const legendPerPointConfig = {
 };
 
 async function loadKPIs() {
-    const freights = await fetch("/data/freights.json").then(r => r.json());
-    const drivers = await fetch("/data/drivers.json").then(r => r.json());
+    try {
+        const kpis = await fetch("/api/dashboard/kpis").then(r => r.json());
 
-    const totalFreights = freights.length;
-    const totalDrivers = drivers.length;
-
-    const delayedFreights = freights.filter(
-        f => new Date(f.delivery_date) > new Date(f.expected_date)
-    ).length;
-
-    const totalRevenue = freights.reduce(
-        (sum, f) => sum + f.value, 0
-    );
-
-    document.getElementById("kpiFreights").textContent = totalFreights;
-    document.getElementById("kpiDrivers").textContent = totalDrivers;
-    document.getElementById("kpiDelayed").textContent = delayedFreights;
-    document.getElementById("kpiRevenue").textContent = `R$ ${totalRevenue.toLocaleString("pt-BR")}`;
+        document.getElementById("kpiFreights").textContent = kpis.total_freights;
+        document.getElementById("kpiDrivers").textContent = kpis.total_drivers;
+        document.getElementById("kpiDelayed").textContent = kpis.delayed_freights;
+        document.getElementById("kpiRevenue").textContent = `R$ ${kpis.total_revenue.toLocaleString("pt-BR")}`;
+    } catch (err) {
+        console.error("Error loading KPIs:", err);
+    }
 }
 
 loadKPIs();
